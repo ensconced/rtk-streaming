@@ -14,7 +14,7 @@ const metaBaseQuery: BaseQueryFn<
   unknown,
   { response: Response }
 > = async (args) => {
-  const response = await fetch(args);
+  const response = await fetch(args); // This waits for the headers to be received, but not for the body.
   if (!response.ok) return { error: new Error("oh no") };
   return { data: { text: "" }, meta: { response } };
 };
@@ -49,9 +49,7 @@ const store = configureStore({
 
 function SlowStreamViewer() {
   const { data } = api.useGetSlowStreamQuery();
-  return (
-    <pre style={{ whiteSpace: "pre-wrap", marginTop: 16 }}>{data?.text}</pre>
-  );
+  return <pre style={{ whiteSpace: "pre-wrap" }}>{data?.text}</pre>;
 }
 
 export default function App() {
